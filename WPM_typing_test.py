@@ -1,6 +1,5 @@
-import curses
+import curses, time, random
 from curses import wrapper
-import time
 
 def start_screen(stdscr):
     stdscr.clear()
@@ -21,10 +20,13 @@ def display_test(stdscr, targat, current, wpm=0):
             
         stdscr.addstr(0, i, char, color)
 
-
+def load_text():
+    with open("text.txt", "r") as f:
+        lines = f.readlines()
+        return random.choice(lines).strip()
 
 def wpm_test(stdscr):
-    targat_text = "Hello world this is some text for this app!"
+    targat_text = load_text()
     current_text = []
     wpm=0
     start_time = time.time()
