@@ -8,16 +8,26 @@ def start_screen(stdscr):
     stdscr.refresh()
     stdscr.getkey()
 
+def display_test(stdscr, targat, current, wpm=0):
+    stdscr.addstr(targat)
+
+    for i, char in enumerate(current):
+        correct_char = targat[i]
+        color = curses.color_pair(1)
+        if char != correct_char:
+            color = curses.color_pair(2)
+            
+        stdscr.addstr(0, i, char, color)
+
+
 def wpm_test(stdscr):
     targat_text = "Hello world this is some text for this app!"
     current_text = []
 
     while True:        
         stdscr.clear()
-        stdscr.addstr(targat_text)
-
-        for char in current_text:
-            stdscr.addstr(char, curses.color_pair(1))
+        
+        display_test(stdscr, targat_text, current_text)
 
         stdscr.refresh()
 
@@ -29,7 +39,7 @@ def wpm_test(stdscr):
         if key in ("KEY_BACKSPACE", '\b', '\x7f'):
             if len(current_text) > 0:
                 current_text.pop()
-        else:
+        elif len(current_text) < len(targat_text):
             current_text.append(key)
 
 
